@@ -18,7 +18,10 @@ class BusinessSignupForm(SignupForm):
 
 #class LicenseVerificationForm(forms.Form):
     #license_information = forms.Textarea(blank=False)
-
+class EventCreateForm(forms.ModelForm):
+    class Meta:
+        model = Events
+        fields = ('title','description', 'thumbnail','category','features','price')
 
 
 

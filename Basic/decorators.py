@@ -1,6 +1,6 @@
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
-
+from.models import Events
 
 def verified(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='login'):
     '''
@@ -30,3 +30,17 @@ def service_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, log
     if function:
         return actual_decorator(function)
     return actual_decorator
+
+from django.core.exceptions import PermissionDenied
+
+
+def user_is_entry_author(function):
+    def wrap(request, *args, **kwargs):
+        entry = Events.objects.get(pk=kwargs['event_id'])
+        if entry.owner == request.user:
+            return function(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
+    wrap.__doc__ = function.__doc__
+    wrap.__name__ = function.__name__
+    return wrap
