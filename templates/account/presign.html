@@ -1,7 +1,30 @@
+{% extends 'base.html'%}
+{% block content %}
+<div class="container justify-items-center align-items-center">
+        <h1 class="mini-header">Select User Type</h1>
 
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <div class="row p-5">
+         <div class="col-lg-6 gauche">
+                <div class="container">
+                    <div class="reg-type-box1 border">
+                        <center>
+                            <h3 class="pt-5 custom-font1">I'm a<br>Traveller</span></h3>
+                            <a href="{% url 'Tourist_signup' %}"><button  class="nav-item mt-3 custom-button3">Continue</button></a>
+                        </center>
+                    </div>
+                </div>
+         </div>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<a href="{% url 'account_signup' %}"><button class="btn btn-outline-success my-2 my-sm-0" type="submit"> I am a Tourist</button></a>
-<a href="{% url 'Service' %}"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">I am a Service Provider</button></a>
+         <div class="col-lg-6 corps">
+                <div class="container">
+                    <div class="reg-type-box2 border">
+                        <center>
+                            <h3 class="pt-5  custom-font1">I'm a<br>Service Provider</span></h3>
+                            <a href="{% url 'Service' %}"> <button  class="nav-item mt-3 custom-button3">Continue</button></a>
+                        </center>
+                    </div>
+                </div>
+         </div>
+        </div>
+    </div>
+{% endblock %}

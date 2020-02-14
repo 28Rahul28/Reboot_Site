@@ -1,42 +1,58 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
-  <head>
-     <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
+<html lang="en">
+<head>
     <title>{% block head_title %}{% endblock %}</title>
     {% block extra_head %}
     {% endblock %}
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'dis/css/custom.css' %}">
+  <link rel="stylesheet" href="{% static 'dis/css/tabs.css' %}">
+  <link rel="stylesheet" href="{% static 'dis/css/custom-mobile.css' %}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Poppins:200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   </head>
   <body>
+  <nav class="navbar navbar-expand-md  navbar-custom">
+        <a href="#" class="navbar-brand">
+            <img class="logo" src="{% static 'dis/img/tripdeck-logo.png' %}" alt="TripDeck Logo">
+        </a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    <div class="collapse navbar-collapse" id="navbar-list-4">
 
-
-      {% if user.is_authenticated %}
-        <li>
-          <a href="{% url 'account_email' %}"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Change E-mail</button></a>
-         </li>
-        <li>
-            <a href="{% url 'account_logout' %}"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign Out</button></a>
-        </li>
-
-      {% else %}
-        <li>
-            <a href="{% url 'account_login' %}"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign In</button></a>
-        </li>
-        <li>
-            <a href="{% url 'Signup' %}"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign Up</button></a>
-            </li>
-
-      {% endif %}
-        </ul>
-
-
-</nav>
-  <div class="container">
-    {% block body %}
-
-    {% if messages %}
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle">
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                              <a class="dropdown-item" href="#">My Profile</a>
+                              <a class="dropdown-item" href="{% url 'account_email' %}">Account Settings</a>
+                              <a class="dropdown-item" href="{% url 'account_logout' %}">Log Out</a>
+                            </div>
+                          </li>
+                        </ul>
+                </div>
+                {% else %}
+                <a href="{% url 'account_login' %}"><button   class="nav-item custom-button1">Login</button></a>
+                <a href="{% url 'Signup' %}"><button   class="nav-item custom-button2">Register?</button></a>
+                {% endif %}
+            </div>
+        </div>
+     </nav>
+{% if messages %}
     <div>
       <strong>Messages:</strong>
       <ul>
@@ -47,13 +63,9 @@
     </div>
     {% endif %}
 
-
-
-    {% block content %}
-    {% endblock %}
-    {% endblock %}
-    {% block extra_body %}
-    {% endblock %}
-    </div>
+  {% block content %}
+ {% endblock %}
+  {% block script %}
+  {% endblock %}
   </body>
 </html>
