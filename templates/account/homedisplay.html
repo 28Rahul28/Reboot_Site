@@ -1,10 +1,11 @@
-{% extends  'base.html' %}
-{% block content %}
-<h1 class="pt-5 pl-5">Your search results are...</h1>
+{% extends 'base.html' %}
 
-<div class="row pl-3 justify-items-center align-items-center" >
-    {% for events in object_list %}
-        <div class="card custom-card ml-5 border-0 rounded-sm">
+{% block content %}
+{% for categories in list %}
+
+<div class="row justify-items-center align-items-center" >
+    {% for events in categories %}
+        <div class="col-sm-3 card custom-card m-5 border-0 rounded-sm">
                   <img class="card-img-top" src="{{ events.thumbnail.url }}" alt="Card image cap">
                   <div class="card-body">
                     <h6 class="card-title">{{ events.title }}</h6>
@@ -30,13 +31,14 @@
                         <div class="card-text custom-text5"><i class="fa fa-inr"></i>{{ events.price }}</div>
                       </div>
                       <div class="col-sm-5 justify-align-right">
-                        <center><a href="{% url 'view' events.pk %}"><button  class="nav-item custom-button4">Details</button></center></a>
+                        <center><button  onclick="window.location.href = 'usertype.html';" class="nav-item custom-button4">Details</button></center>
                       </div>
                     </div>
                   </div>
               </div>
 
     {% endfor %}
-        </div>
 </div>
-{% endblock  %}
+
+{% endfor %}
+{% endblock %}

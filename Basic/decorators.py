@@ -2,7 +2,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
 from.models import Events
 
-def verified(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='login'):
+def verified(function=None, redirect_field_name='home', login_url='account_login'):
     '''
     Decorator for views that checks that the logged in user is a student,
     redirects to the log-in page if necessary.
@@ -44,3 +44,4 @@ def user_is_entry_author(function):
     wrap.__doc__ = function.__doc__
     wrap.__name__ = function.__name__
     return wrap
+

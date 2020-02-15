@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="service-container p-5">
+        <div class="row">
+            <div class="col-sm-6">
+                <b><h1>{{ object.title }}</h1></b>
+                <div class="row container rating-text">
+                    <div class="column">
+                            <span class="ratings-icons">
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star"></span>
+                            </span>
+                            <span>4.9 / 5 </span>
+                          </div>
+                        <div class="column">
+                          <span class="review-stats2">&ensp;7 reviews</span> 
+                        </div>
+                        <p class="pt-3 service-description">
+                        {{ object.description}}
+                        </p>
+                    </div>
+                    <hr>
+                     <div class="row">
+                        <div class="col-sm-6">
+                          <div class="card-text custom-text6">Prices Starting From</div>
+                          <div class="card-text custom-text7"><i class="fa fa-inr"></i>{{ object.price }}</div>
+                          <button   class="nav-item custom-button5">Book Tickets Online</button>
+                        </div>
+                        <div class="col-sm-6 pt-4">
+                                <div class=" features-text pt-2"><i class="fa fa-check" style="color:rgb(11, 219, 63);"></i> Instant confirmation</div>
+                                <div class=" features-text pt-2"><i class="fa fa-check" style="color:rgb(11, 219, 63);"></i> Live tour guide</div>
+                                <div class=" features-text pt-2"><i class="fa fa-check" style="color:rgb(11, 219, 63);"></i> Free cancellation up to 24 hours before activity starts</div>
+                        </div>
+                    </div>
+
+
+
+
+            </div>
+            <div class="col-sm-6">
+                <img src="{{ object.thumbnail.url }}" width="100%">
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,16 +1,25 @@
 from django.contrib import messages
 from django.shortcuts import render,get_object_or_404,redirect,reverse
-from django.views.generic import ListView,UpdateView,CreateView,DeleteView,TemplateView
+from django.views.generic import ListView,UpdateView,CreateView,DeleteView,DetailView
 from.models import Events
 from.forms import EventCreateForm
 from.models import User
 from django.utils.decorators import method_decorator
 from.decorators import verified
 from django.db.models import Q
+from .models import categories
 # Create your views here.
 
-def Homeview(ListView):
+class Homeview(ListView):
     model = Events
+    template_name = 'account/home.html'
+    context_object_name = 'list'
+    def get_queryset(self):
+        result = []
+        for x in categories:
+            result.append(Events.objects.filter(category=x[0]))
+        print(result)
+        return result
 
 
 class SearchView(ListView):
@@ -44,7 +53,7 @@ class EventListView(ListView):
     context_object_name = 'events'
     template_name = "events/list.html"
     def get_queryset(self):
-        queryset = get_object_or_404(self.request.user.events.all())
+        queryset = self.request.user.events.all()
         return queryset
 
 @method_decorator([verified],name='dispatch')
@@ -55,8 +64,7 @@ class EventCreateView(CreateView):
     def form_valid(self, form):
 
         events = form.save(commit=False)
-        events.owner = get_object_or_404(self.request.user)
-
+        events.owner = self.request.user
         events.thumbnail = self.request.FILES['thumbnail']
         events.save()
         return super(EventCreateView, self).form_valid(form)
@@ -86,3 +94,26 @@ class EventDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse('list')
+
+class EventDetailView(DetailView):
+
+    template_name = "events/service-details.html"
+    model = Events
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+#rest api
+from rest_framework import generics
+from rest_framework import filters
+from .models import Events
+from .serializers import EventSerializer
+
+
+class EventAPIView(generics.ListCreateAPIView):
+    search_fields = ['title', 'description', 'category','price']
+    filter_backends = (filters.SearchFilter,)
+    queryset = Events.objects.all()
+    serializer_class = EventSerializer

@@ -2,6 +2,7 @@ from allauth.account.views import SignupView
 from ..forms import BusinessSignupForm
 from django.shortcuts import render
 from django.views.generic import ListView,CreateView,UpdateView,TemplateView
+
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
@@ -26,7 +27,4 @@ class BusinessUserRegistrationView(SignupView):
 
 
 Service = BusinessUserRegistrationView.as_view()
-
-
-
 
