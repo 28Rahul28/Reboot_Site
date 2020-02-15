@@ -1,0 +1,38 @@
+<h2>Files</h2>
+    <p>
+      <a href="{% url 'create' %}" class="btn btn-primary">Upload Events</a>
+    </p>
+<table class="table mb-0">
+    <thead>
+      <tr>
+        <th>FileName</th>
+        <th>Download</th>
+        <th>Delete</th>
+        <th>Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for event in events %}
+        <tr>
+          <td>
+            <h2>{{event.title}}</h2>
+              <h3>{{ event.description }}</h3>
+
+              </a>
+          </td>
+
+          <td>
+            <form method="post" action="{% url 'delete' event.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+          </td>
+            <td>
+              <form action=""></form>
+              <a href="{% url 'update' event.pk %}" class="btn btn-primary btn-sm" >Update</a>
+
+            </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>

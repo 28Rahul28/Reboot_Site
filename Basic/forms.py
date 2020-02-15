@@ -1,6 +1,6 @@
 from allauth.account.forms import SignupForm
 from django import forms
-from . models import Events
+from . models import Events,Booking
 
 class BusinessSignupForm(SignupForm):
     license_data = forms.CharField(max_length=264)
@@ -21,8 +21,11 @@ class BusinessSignupForm(SignupForm):
 class EventCreateForm(forms.ModelForm):
     class Meta:
         model = Events
-        fields = ('title','description', 'thumbnail','category','features','price')
+        fields = ('title','description', 'thumbnail','category','keywords','price')
 
-
+class BookCreateForm(forms.ModelForm):
+    class Meta:
+        model = Booking
+        fields = ('date',)
 
 

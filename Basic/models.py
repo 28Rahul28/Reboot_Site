@@ -19,25 +19,15 @@ class Events(models.Model):
     title = models.CharField(max_length=264)
     description = models.TextField()
     thumbnail = models.ImageField(upload_to='thumbnail/',)
-    features = models.TextField()
-    category = models.IntegerField(choices=categories, max_length=264, default=1)
+    keywords = models.TextField()
+    category = models.IntegerField(choices=categories,  default=1)
     price = models.IntegerField(null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE,related_name='events')
-    location = models.CharField(max_length=264,default='kumarakom')
-    def __str__(self):
-        return (categories[int(self.category)][1])
+    location = models.CharField(max_length=264,default='kerala')
 
-class Comment(models.Model):
-    event = models.ForeignKey(Events,on_delete=models.CASCADE, related_name='comments')
-    name = models.CharField(max_length=80)
-    email = models.EmailField()
-    body = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    active = models.BooleanField(default=True)
 
-    class Meta:
-        ordering = ('created',)
+class Booking(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE, related_name='bookings')
+    event = models.ForeignKey(Events, on_delete=models.CASCADE, related_name='bookings')
+    date = models.DateTimeField()
 
-    def __str__(self):
-        return self.body

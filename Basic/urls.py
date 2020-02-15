@@ -15,6 +15,10 @@ urlpatterns = [
     path('events/update/<int:pk>/', views.EventUpdateView.as_view(), name = 'update'),
     path('events/delete/<int:pk>/', views.EventDeleteView.as_view(), name ='delete'),
     path('event/view/<int:pk>/', views.EventDetailView.as_view(), name = 'view'),
+    path('booking/list/', views.BookListView.as_view(), name='book_list'),
+    path('booking/create/<int:pk>', views.BookCreateView.as_view(), name='book_create'),
+    path('booking/delete/<int:pk>/', views.BookDeleteView.as_view(), name='book_delete'),
+
 
     path('api/search/', views.EventAPIView),
     ]

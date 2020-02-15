@@ -2,12 +2,13 @@ from django.contrib import messages
 from django.shortcuts import render,get_object_or_404,redirect,reverse
 from django.views.generic import ListView,UpdateView,CreateView,DeleteView,DetailView
 from.models import Events
-from.forms import EventCreateForm
+from.forms import EventCreateForm, BookCreateForm
+from django.contrib.auth.decorators import login_required
 from.models import User
 from django.utils.decorators import method_decorator
 from.decorators import verified
 from django.db.models import Q
-from .models import categories
+from .models import categories,Booking
 # Create your views here.
 
 class Homeview(ListView):
@@ -40,7 +41,7 @@ class SearchView(ListView):
         or_lookup = []
         if query is not None:
             or_lookup = (Q(title__icontains=query) |Q(description__icontains=query) |
-                    Q(features__icontains=query) | Q(location__icontains=query) | Q(price__icontains=query))
+                    Q(keywords__icontains=query) | Q(location__icontains=query) | Q(price__icontains=query))
 
         result = Events.objects.filter(or_lookup)
         print(result)
@@ -71,8 +72,38 @@ class EventCreateView(CreateView):
     def get_success_url(self):
         return reverse('list')
 
+@method_decorator(login_required, name='dispatch')
+class BookCreateView(CreateView):
+    model = Booking
+    template_name = 'booking/create.html'
+    form_class = BookCreateForm
+    def form_valid(self, form):
 
+        Bookings = form.save(commit=False)
+        Bookings.user = self.request.user
+        Bookings.save()
+        return super(BookCreateView, self).form_valid(form)
+    def get_success_url(self):
+        return reverse('book_list')
 
+    def get_context_data(self, *args, **kwargs):
+        context = super(BookCreateView, self).get_context_data(*args, **kwargs)
+        context['event'] = Events.objects.get(pk=self.kwargs.get('pk'))
+        return context
+class BookListView(ListView):
+    model = Booking
+    context_object_name = 'events'
+    template_name = "booking/list.html"
+    def get_queryset(self):
+        queryset = self.request.user.bookings.all()
+        return queryset
+
+class BookDeleteView(DeleteView):
+    model = Booking
+    template_name = "boooking/confirm_delete.html"
+
+    def get_success_url(self):
+        return reverse('booklist')
 
 @method_decorator([verified],name='dispatch')
 class EventUpdateView(UpdateView):
@@ -86,6 +117,8 @@ class EventUpdateView(UpdateView):
         event.save()
         messages.success(self.request, 'The quiz was created with success! Go ahead and add some questions now.')
         return redirect('update', event.pk)
+
+
 
 @method_decorator([verified],name='dispatch')
 class EventDeleteView(DeleteView):
