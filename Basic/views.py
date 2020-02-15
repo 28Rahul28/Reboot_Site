@@ -6,10 +6,37 @@ from.forms import EventCreateForm
 from.models import User
 from django.utils.decorators import method_decorator
 from.decorators import verified
+from django.db.models import Q
 # Create your views here.
 
-class DashboardView(TemplateView):
-    template_name = ""
+def Homeview(ListView):
+    model = Events
+
+
+class SearchView(ListView):
+    model = Events
+    template_name = 'search/result.html'
+    paginate_by = 20
+    count = 0
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['count'] = self.count or 0
+        context['query'] = self.request.GET.get('q')
+        return context
+
+    def get_queryset(self):
+        request = self.request
+        query = request.GET.get('q', None)
+        or_lookup = []
+        if query is not None:
+            or_lookup = (Q(title__icontains=query) |Q(description__icontains=query) |
+                    Q(features__icontains=query) | Q(location__icontains=query) | Q(price__icontains=query))
+
+        result = Events.objects.filter(or_lookup)
+        print(result)
+        return result
+            # just an empty queryset as default
 
 @method_decorator([verified],name='dispatch')
 class EventListView(ListView):

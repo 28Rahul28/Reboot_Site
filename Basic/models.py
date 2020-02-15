@@ -17,7 +17,8 @@ class Events(models.Model):
     description = models.TextField()
     thumbnail = models.ImageField(upload_to='thumbnail/',)
     features = models.TextField()
-    category = models.CharField(choices=categories, max_length=264)
+    category = models.CharField(choices=categories, max_length=264, default=1)
     price = models.IntegerField(null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE,related_name='events')
-    location = models.CharField(max_length=264)
+    location = models.CharField(max_length=264,default='kumarkom')
+

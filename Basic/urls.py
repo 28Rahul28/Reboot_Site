@@ -5,6 +5,7 @@ from allauth.account.views import SignupView
 
 urlpatterns = [
     path('', site.Homeview.as_view(), name='Home'),
+    path('search/', views.SearchView.as_view(), name='search_results'),
     path('accounts/signup/', site.Signup.as_view(), name='Signup'),
     path('accounts/signup/tourist/', SignupView.as_view(), name = 'Tourist_signup'),
     path('accounts/signup/service/', provider.Service, name='Service'),
