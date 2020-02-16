@@ -16,10 +16,8 @@ class Homeview(ListView):
     template_name = 'account/home.html'
     context_object_name = 'list'
     def get_queryset(self):
-        result = []
-        for x in categories:
-            result.append(Events.objects.filter(category=x[0]))
-        print(result)
+
+        result = Events.objects.all()
         return result
 
 
@@ -108,7 +106,7 @@ class BookDeleteView(DeleteView):
 @method_decorator([verified],name='dispatch')
 class EventUpdateView(UpdateView):
     model = Events
-    fields = ('title', 'description', 'thumbnail', 'features', 'price',)
+    fields = ('title', 'description', 'thumbnail', 'keywords', 'price',)
     template_name = 'events/create.html'
 
     def form_valid(self, form):

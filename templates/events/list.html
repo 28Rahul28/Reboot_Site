@@ -1,38 +1,181 @@
-<h2>Files</h2>
-    <p>
-      <a href="{% url 'create' %}" class="btn btn-primary">Upload Events</a>
-    </p>
-<table class="table mb-0">
-    <thead>
-      <tr>
-        <th>Events</th>
-        <th>Download</th>
-        <th>Delete</th>
-        <th>Update</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for event in events %}
-        <tr>
-          <td>
-            <h2>{{event.title}}</h2>
-              <h3>{{ event.description }}</h3>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>List</title>
 
-              </a>
-          </td>
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
-          <td>
-            <form method="post" action="{% url 'delete' event.pk %}">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+  <!-- CSS Libraries -->
+  <link rel="stylesheet" href="../node_modules/jqvmap/dist/jqvmap.min.css">
+  <link rel="stylesheet" href="../node_modules/weathericons/css/weather-icons.min.css">
+  <link rel="stylesheet" href="../node_modules/weathericons/css/weather-icons-wind.min.css">
+  <link rel="stylesheet" href="../node_modules/summernote/dist/summernote-bs4.css">
+
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+</head>
+
+<body>
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Dashboard </title>
+
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <!-- CSS Libraries -->
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{% static 'assets3/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets3/css/components.css' %}">
+</head>
+
+<body>
+<div id="app">
+    <div class="main-wrapper">
+        <div class="navbar-bg"></div>
+        <nav class="navbar navbar-expand-lg main-navbar">
+            <form class="form-inline mr-auto">
+                <ul class="navbar-nav mr-3">
+                    <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i
+                            class="fas fa-bars"></i></a></li>
+                    <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i
+                            class="fas fa-search"></i></a></li>
+                </ul>
             </form>
-          </td>
-            <td>
-              <form action=""></form>
-              <a href="{% url 'update' event.pk %}" class="btn btn-primary btn-sm" >Update</a>
+            <li class="dropdown"><a href="#" data-toggle="dropdown"
+                                    class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                <img alt="image" src="{% static 'assets3/img/avatar/avatar-1.png' %}" class="rounded-circle mr-1">
+                <div class="d-sm-none d-lg-inline-block">Hi, {{ user.username }}</div>
+            </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-title">Logged in 5 min ago</div>
+                    <a href="features-profile.html" class="dropdown-item has-icon">
+                        <i class="far fa-user"></i> Profile
+                    </a>
+                    <a href="features-activities.html" class="dropdown-item has-icon">
+                        <i class="fas fa-bolt"></i> Activities
+                    </a>
+                    <a href="features-settings.html" class="dropdown-item has-icon">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="{% url 'account_logout' %}" class="dropdown-item has-icon text-danger">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </li>
+            </ul>
+        </nav>
+        <div class="main-sidebar">
+            <aside id="sidebar-wrapper">
+                <div class="sidebar-brand">
+                    <a href="{% url 'Home' %}"></a><img height="30px" src="{% static 'assets3\img\tripdeck-logo.png' %}"></a>
+                </div>
+                <div class="sidebar-brand sidebar-brand-sm">
+                    <a href="{% url 'Home' %}"></a><img height="30px" src="{% static 'assets3\img\tripdeck-icon.png' %}"></a>
+                </div>
+                <ul class="sidebar-menu">
+                    <li><a class="nav-link" href="#"><i class="far fa-list-alt "></i>
+                        <span>Dashboard</span></a></li>
+                    <li><a class="nav-link" href="{% url 'create' %}"><i class="far fa-file"></i> <span>Add
+                                    Packages</span></a></li>
+                    <li><a class="nav-link" href="{% url 'list' %}"><i class="far fa-user"></i> <span>Manage
+                                    Packages</span></a></li>
+                    <li><a class="nav-link" href="#"><i class="far fa-bookmark"></i> <span>Manage
+                                    Bookings</span></a></li>
+                    <li><a class="nav-link" href="#"><i class="far fa-comments"></i> <span>Manage
+                                    Issues</span></a></li>
+        </div>
+        </aside>
+    </div>
+</div>
 
-            </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<!-- Main Content -->
+<div class="main-content">
+    <section class="section">
+        <div class="section-header">
+            <h1>View Packages</h1>
+        </div>
+
+
+                <div class="card-body p-0">
+                  <div class="table-responsive">
+                    <table class="table table-striped mb-0">
+                      <thead>
+                        <tr>
+                          <th>Event</th>
+                          <th>Keywords</th>
+                          <th>Update</th>
+                          <th>Delete</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for event in events %}
+
+                        <tr>
+                          <td>
+                            <div>
+                                {{ event.title}}
+                            </div>
+                          </td>
+                          <td>
+                            {{ event.keywords}}
+                          </td>
+                          <td>
+                            <form method="post" action="{% url 'delete' event.pk %}">
+                               {% csrf_token %}
+                            <a class="btn btn-primary btn-action mr-1" href="{% url 'update' event.pk %}" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                              </form>
+                          </td>
+                          <td>
+                              <a class="btn btn-danger btn-action" href="{% url 'delete' event.pk %}" data-toggle="tooltip" title="Delete" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="alert('Deleted')"><i class="fas fa-trash"></i></a>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+
+  <!-- General JS Scripts -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src="../assets/js/stisla.js"></script>
+
+  <!-- JS Libraies -->
+  <script src="../node_modules/simpleweather/jquery.simpleWeather.min.js"></script>
+  <script src="../node_modules/chart.js/dist/Chart.min.js"></script>
+  <script src="../node_modules/jqvmap/dist/jquery.vmap.min.js"></script>
+  <script src="../node_modules/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+  <script src="../node_modules/summernote/dist/summernote-bs4.js"></script>
+  <script src="../node_modules/chocolat/dist/js/jquery.chocolat.min.js"></script>
+
+  <!-- Template JS File -->
+  <script src="../assets/js/scripts.js"></script>
+  <script src="../assets/js/custom.js"></script>
+
+  <!-- Page Specific JS File -->
+  <script src="../assets/js/page/index-0.js"></script>
+</body>
+</html>

@@ -21,7 +21,7 @@
   </head>
   <body>
   <nav class="navbar navbar-expand-md  navbar-custom">
-        <a href="#" class="navbar-brand">
+        <a href="{% url 'Home' %}" class="navbar-brand">
             <img class="logo" src="{% static 'dis/img/tripdeck-logo.png' %}" alt="TripDeck Logo">
         </a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -79,15 +79,10 @@
         </div>
     </div>
 
-  <br>
-
-    {% for event in list %}
-        <div class="container p-5">
-  <h2 class="p-4">Top {{ event }} in Kerala</h2>
-  <div class="row justify-items-center align-items-center" >
-        {% for events in event %}
-
-
+<div class="container p5">
+      <div class="p-5"><h2>Top in Kerala</h2></div>
+  <div class="row pl-3 justify-items-center align-items-center" >
+    {% for events in object_list %}
         <div class="card custom-card ml-5 border-0 rounded-sm">
                   <img class="card-img-top" src="{{ events.thumbnail.url }}" alt="Card image cap">
                   <div class="card-body">
@@ -114,20 +109,16 @@
                         <div class="card-text custom-text5"><i class="fa fa-inr"></i>{{ events.price }}</div>
                       </div>
                       <div class="col-sm-5 justify-align-right">
-                            <center><a href="{% url 'view' events.pk %}"><button  class="nav-item custom-button4">Details</button></center></a>
+                        <center><a href="{% url 'view' events.pk %}"><button  class="nav-item custom-button4">Details</button></center></a>
                       </div>
                     </div>
                   </div>
               </div>
-      </div>
-</div>
-          {% endfor %}
 
     {% endfor %}
-
+        </div>
 </div>
-
-
+  </div>
  </body>
 </html>
 

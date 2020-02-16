@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
+<center>
+<div class="container p-5 align-items-center justify-items-center" style="margin-top:7%">
 <form method="post">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"?</p>
-    <input type="submit" value="Confirm">
+    <h3>Are you sure you want to delete <b> "{{ object.title }}"</b>? </h3>
+    <input class="custom-button5" type="submit" value="Confirm">
 </form>
-
-</body>
-</html>
+</div>
+</center>
+{% endblock %}
