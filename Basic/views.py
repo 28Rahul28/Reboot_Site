@@ -6,7 +6,7 @@ from.forms import EventCreateForm, BookCreateForm
 from django.contrib.auth.decorators import login_required
 from.models import User
 from django.utils.decorators import method_decorator
-from.decorators import verified
+from.decorators import verified, user_is_entry_author
 from django.db.models import Q
 from .models import categories,Booking
 # Create your views here.
@@ -44,7 +44,6 @@ class SearchView(ListView):
         result = Events.objects.filter(or_lookup)
         print(result)
         return result
-            # just an empty queryset as default
 
 @method_decorator([verified],name='dispatch')
 class EventListView(ListView):
@@ -111,7 +110,9 @@ class EventUpdateView(UpdateView):
 
     def form_valid(self, form):
         event = form.save(commit=False)
-        event.owner = self.request.user
+        if event.owner != self.request.user:
+            messages.success(message="Permission Denied",request=self.request)
+            return redirect('list')
         event.save()
         messages.success(self.request, 'The quiz was created with success! Go ahead and add some questions now.')
         return redirect('update', event.pk)

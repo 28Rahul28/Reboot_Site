@@ -1,9 +1,13 @@
 {% extends  'base.html' %}
 {% block content %}
-<h1 class="p-5 pl-5">Your search results are...</h1>
-
+{% if object_list %}
+    <h1 class="p-5 pl-5">Your search results are...</h1>
+{% endif %}
 <div class="container p5">
 <div class="row pl-3 justify-items-center align-items-center" >
+    {% if not object_list %}
+        <div><h1>Sorry No Results Found</h1></div>
+    {% endif %}
     {% for events in object_list %}
         <div class="card custom-card ml-5  border-0 rounded-sm">
                   <img class="card-img-top" src="{{ events.thumbnail.url }}" alt="Card image cap">
